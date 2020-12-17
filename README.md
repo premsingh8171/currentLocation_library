@@ -8,8 +8,8 @@ get current location
 ```gradle
 allprojects {
 	repositories {
-		maven { 
-    url 'https://jitpack.io' }
+	
+		maven {  url 'https://jitpack.io' }
 	}
 }
 ```
@@ -17,7 +17,8 @@ allprojects {
  
 ```gradle
 dependencies {
-      
+
+     implementation 'com.github.premsingh8171:currentLocation_library:1.0.0' 
 }
 ```
 ## Using onClick
