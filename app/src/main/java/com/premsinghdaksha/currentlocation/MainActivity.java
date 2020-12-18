@@ -75,12 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 if ((grantResults[0] == 0)) {
                     checkPermition = 1;
                     try {
-//                        locationManager = (LocationManager) MainActivity.this.getSystemService(Context.LOCATION_SERVICE);
-//                        double Latitude = getLastBestLocation().getLatitude();
-//                        double Longitude = getLastBestLocation().getLongitude();
                         trackGPSLocation = new TrackGPSLocation(MainActivity.this);
-
-
                     } catch (Exception e) {
                         e.fillInStackTrace();
                     }
