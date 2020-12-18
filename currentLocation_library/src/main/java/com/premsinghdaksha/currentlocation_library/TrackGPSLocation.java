@@ -30,6 +30,7 @@ public class TrackGPSLocation implements LocationListener {
 
     }
 
+
     private Location getLocation() {
         try {
             locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
@@ -174,4 +175,5 @@ public class TrackGPSLocation implements LocationListener {
 
         void lastKnownLocationAfterConnection(Location location);
     }
+
 }
