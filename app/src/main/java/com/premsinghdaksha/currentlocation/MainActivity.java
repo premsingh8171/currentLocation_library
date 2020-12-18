@@ -1,8 +1,13 @@
+/**
+ * Created by Er.prem singh on 16/12/2020.
+ * https://www.linkedin.com/in/prem-singh-daksha-82az/
+ */
 package com.premsinghdaksha.currentlocation;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,12 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.premsinghdaksha.currentlocation_library.GetAddFromLatLong;
+import com.premsinghdaksha.currentlocation_library.GetLocFromLatLong;
 import com.premsinghdaksha.currentlocation_library.TrackGPSLocation;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView select_tv;
-    private GetAddFromLatLong getAddFromLatLong;
+    private TextView select_tv, address;
+    private GetLocFromLatLong getLocFromLatLong;
     private TrackGPSLocation trackGPSLocation;
     private int checkPermition = 0;
     private static final int MY_PERMISSIONS_REQUEST_CODE = 101;
@@ -26,24 +31,49 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         select_tv = findViewById(R.id.select_tv);
+        address = findViewById(R.id.address);
         checkPermission();
-        getAddFromLatLong = new GetAddFromLatLong(MainActivity.this);
+        trackGPSLocation = new TrackGPSLocation(MainActivity.this);
+        getLocFromLatLong = new GetLocFromLatLong(MainActivity.this);
+        getLocFromLatLong.getLocation_(trackGPSLocation.getLatitude(), trackGPSLocation.getLongitude());
 
         findViewById(R.id.selectadd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //here we passes the lat long by sing trackGPSAddress
-                getAddFromLatLong.SaveLocationData(trackGPSLocation.getLatitude(), trackGPSLocation.getLongitude());
-                String value = getAddFromLatLong.getCity();
-                String value2 = getAddFromLatLong.getAddress();
-                String value3 = getAddFromLatLong.getCountry();
-                String value4 = getAddFromLatLong.getLocality();
-                String value5 = getAddFromLatLong.getPincode();
-                String value6 = getAddFromLatLong.getState();
+                if (checkPermition == 1) {
+                    //here we passes the lat long by sing trackGPSAddress
+                    String value = getLocFromLatLong.getLocality();
 
-                //set current address
-                select_tv.setText(value);
+//                    String value2 = getLocFromLatLong.getAddress();
+//                    String value3 = getLocFromLatLong.getCountry();
+//                    String value4 = getLocFromLatLong.getLocality();
+//                    String value5 = getLocFromLatLong.getPincode();
+//                    String value6 = getLocFromLatLong.getAdminArea();
+//                    String value7 = getLocFromLatLong.getCountryCode();
+//                    String value8 = getLocFromLatLong.getFeatureName();
+//                    String value9 = getLocFromLatLong.getState();
+//                    String value10 = getLocFromLatLong.getPhone();
+//                    String value11 = getLocFromLatLong.getSubLocality();
+//                    String value12 = getLocFromLatLong.getUrl();
+
+                    //set current address
+                    select_tv.setText(value);
+
+                } else {
+                    checkPermission();
+                }
+            }
+        });
+
+        address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkPermition == 1) {
+                    address.setText(getLocFromLatLong.getAddress());
+                } else {
+                    checkPermission();
+                }
             }
         });
 
@@ -66,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             checkPermition = 1;
         }
+        Log.d("trackGPSLoca", String.valueOf(checkPermition));
+
     }
 
     @Override
@@ -74,17 +106,21 @@ public class MainActivity extends AppCompatActivity {
             case MY_PERMISSIONS_REQUEST_CODE: {
                 if ((grantResults[0] == 0)) {
                     checkPermition = 1;
-                    try {
-                        trackGPSLocation = new TrackGPSLocation(MainActivity.this);
-                    } catch (Exception e) {
-                        e.fillInStackTrace();
-                    }
                 } else {
                     checkPermition = 0;
                 }
                 return;
             }
         }
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        trackGPSLocation = new TrackGPSLocation(MainActivity.this);
+        getLocFromLatLong = new GetLocFromLatLong(MainActivity.this);
+        getLocFromLatLong.getLocation_(trackGPSLocation.getLatitude(), trackGPSLocation.getLongitude());
+
+    }
 }

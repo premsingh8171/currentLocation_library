@@ -1,3 +1,7 @@
+/**
+ * Created by Er.prem singh on 16/12/2020.
+ * https://www.linkedin.com/in/prem-singh-daksha-82az/
+ */
 package com.premsinghdaksha.currentlocation_library;
 
 import android.app.AlertDialog;
