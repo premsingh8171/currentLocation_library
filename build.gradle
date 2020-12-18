@@ -16,6 +16,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
+//        implementation project(path: ':currentLocation_library')
+
     }
 }
 
